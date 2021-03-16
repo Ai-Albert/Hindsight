@@ -8,10 +8,6 @@ class Logging extends StatefulWidget {
 class _LoggingState extends State<Logging> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Logging'),
-      ),
-    );
+    return Container();
   }
 }

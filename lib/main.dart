@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hindsight/pages/home.dart';
 import 'package:hindsight/pages/logging.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Logging(),
+      home: Home(),
     );
   }
 }
