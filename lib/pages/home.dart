@@ -11,6 +11,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final List<Widget> _children = [Logging(), TimeMachine()];
   final List<String> _appBarTitles = ['Logging', 'Time Machine'];
+  final List<Widget> _icons = [Icon(Icons.add), Icon(Icons.calendar_today_outlined)];
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,19 @@ class _HomeState extends State<Home> {
       ),
 
       body: _children[_currentIndex],
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        child: _icons[_currentIndex],
+        onPressed: () {
+          if (_appBarTitles[_currentIndex] == 'Logging') {
+            //
+          }
+          else if (_appBarTitles[_currentIndex] == 'Time Machine') {
+            //
+          }
+        },
+      ),
 
       bottomNavigationBar: BottomNavigationBar(
 
