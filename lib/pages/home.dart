@@ -28,11 +28,11 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         child: _icons[_currentIndex],
         onPressed: () {
-          if (_appBarTitles[_currentIndex] == 'Logging') {
-            //
+          if (_currentIndex == 0) {
+            // TODO: navigate to the page for adding an entry
           }
-          else if (_appBarTitles[_currentIndex] == 'Time Machine') {
-            //
+          else if (_currentIndex == 1) {
+            // TODO: navigate to calendar graph page
           }
         },
       ),
