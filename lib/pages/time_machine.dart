@@ -8,10 +8,6 @@ class TimeMachine extends StatefulWidget {
 class _TimeMachineState extends State<TimeMachine> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Time Machine'),
-      ),
-    );
+    return Container();
   }
 }
