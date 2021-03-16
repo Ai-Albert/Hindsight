@@ -8,6 +8,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  // Controls variable elements of the basic structure of the app
   int _currentIndex = 0;
   final List<Widget> _children = [Logging(), TimeMachine()];
   final List<String> _appBarTitles = ['Logging', 'Time Machine'];
@@ -20,7 +22,6 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text(_appBarTitles[_currentIndex]),
       ),
-
       body: _children[_currentIndex],
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -58,11 +59,5 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
-  }
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 }
