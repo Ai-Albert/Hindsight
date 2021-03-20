@@ -8,6 +8,11 @@ class CalendarGraph extends StatefulWidget {
 class _CalendarGraphState extends State<CalendarGraph> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Productivity Graph'),
+      ),
+      body: Container(),
+    );
   }
 }

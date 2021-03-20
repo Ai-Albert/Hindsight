@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "295738143254",
+    "project_id": "hindsight-eb856",
+    "storage_bucket": "hindsight-eb856.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295738143254:android:968d475a906caf08603b37",
+        "android_client_info": {
+          "package_name": "com.albertai.hindsight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295738143254-2p3d91v4nrve23gjijpe5ja76bedbq1q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.albertai.hindsight",
+            "certificate_hash": "ac682c7bdc5ead581a1a06a457ef8a5c95c304da"
+          }
+        },
+        {
+          "client_id": "295738143254-v63tf50c6dkh1jcge3ln07nk4objq5ek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASCuzaJHFkj6ZTSRn5D1amNlNcYxPrDPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295738143254-v63tf50c6dkh1jcge3ln07nk4objq5ek.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "295738143254-aph19h5bkp3pp6foiu51iargssepmjdg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.albertai.hindsight"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

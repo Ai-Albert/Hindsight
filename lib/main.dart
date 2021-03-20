@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hindsight/pages/home.dart';
+import 'package:hindsight/sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Home(),
+      home: SignInPage(),
     );
   }
 }

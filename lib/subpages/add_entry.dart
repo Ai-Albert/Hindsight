@@ -8,6 +8,11 @@ class AddEntry extends StatefulWidget {
 class _AddEntryState extends State<AddEntry> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Add Log Entry'),
+      ),
+      body: Container(),
+    );
   }
 }
