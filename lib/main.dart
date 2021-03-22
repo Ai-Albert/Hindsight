@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hindsight/sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'landing_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignInPage(),
+      home: LandingPage(),
     );
   }
 }

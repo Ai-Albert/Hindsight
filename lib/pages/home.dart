@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hindsight/pages/logging.dart';
 import 'package:hindsight/pages/time_machine.dart';
@@ -5,6 +6,18 @@ import 'package:hindsight/pages/time_machine.dart';
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
+
+  final VoidCallback onSignOut;
+  const Home({Key key, this.onSignOut}) : super(key: key);
+
+  Future _signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      onSignOut();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
 
 class _HomeState extends State<Home> {
