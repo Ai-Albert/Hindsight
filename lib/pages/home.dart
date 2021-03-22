@@ -4,11 +4,18 @@ import 'package:hindsight/pages/logging.dart';
 import 'package:hindsight/pages/time_machine.dart';
 
 class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
 
   final VoidCallback onSignOut;
-  const Home({Key key, this.onSignOut}) : super(key: key);
+  const Home({Key key, @required this.onSignOut}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState(onSignOut: onSignOut);
+}
+
+class _HomeState extends State<Home> {
+
+  final VoidCallback onSignOut;
+  _HomeState({@required this.onSignOut});
 
   Future _signOut() async {
     try {
@@ -18,9 +25,6 @@ class Home extends StatefulWidget {
       print(e.toString());
     }
   }
-}
-
-class _HomeState extends State<Home> {
 
   // Controls variable elements of the basic structure of the app
   int _currentIndex = 0;
@@ -34,6 +38,15 @@ class _HomeState extends State<Home> {
 
       appBar: AppBar(
         title: Text(_appBarTitles[_currentIndex]),
+        actions: [
+          TextButton(
+            child: Icon(
+              Icons.exit_to_app_outlined,
+              color: Colors.white,
+            ),
+            onPressed: _signOut,
+          ),
+        ],
       ),
       body: _children[_currentIndex],
 
