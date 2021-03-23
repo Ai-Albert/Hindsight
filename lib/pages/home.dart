@@ -5,9 +5,8 @@ import 'package:hindsight/pages/time_machine.dart';
 
 class Home extends StatefulWidget {
 
-  final VoidCallback onSignOut;
   final AuthBase auth;
-  const Home({Key key, @required this.onSignOut, @required this.auth}) : super(key: key);
+  const Home({Key key, @required this.auth}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -18,7 +17,6 @@ class _HomeState extends State<Home> {
   Future _signOut() async {
     try {
       await widget.auth.signOut();
-      widget.onSignOut();
     } catch (e) {
       print(e.toString());
     }
