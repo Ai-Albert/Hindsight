@@ -1,26 +1,24 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hindsight/auth.dart';
 import 'package:hindsight/pages/logging.dart';
 import 'package:hindsight/pages/time_machine.dart';
 
 class Home extends StatefulWidget {
 
   final VoidCallback onSignOut;
-  const Home({Key key, @required this.onSignOut}) : super(key: key);
+  final AuthBase auth;
+  const Home({Key key, @required this.onSignOut, @required this.auth}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState(onSignOut: onSignOut);
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
 
-  final VoidCallback onSignOut;
-  _HomeState({@required this.onSignOut});
-
   Future _signOut() async {
     try {
-      await FirebaseAuth.instance.signOut();
-      onSignOut();
+      await widget.auth.signOut();
+      widget.onSignOut();
     } catch (e) {
       print(e.toString());
     }

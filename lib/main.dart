@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:hindsight/auth.dart';
 import 'landing_page.dart';
 
 Future main() async {
@@ -17,7 +17,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LandingPage(),
+      home: LandingPage(
+        auth: Auth(),
+      ),
     );
   }
 }

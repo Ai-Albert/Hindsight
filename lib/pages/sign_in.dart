@@ -1,17 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hindsight/auth.dart';
 import 'package:hindsight/pages/home.dart';
 import 'package:hindsight/custom_widgets/sign_in_button.dart';
 
 class SignInPage extends StatelessWidget {
 
   final void Function(User) onSignIn;
-  const SignInPage({Key key, @required this.onSignIn}) : super(key: key);
+  final AuthBase auth;
+  const SignInPage({Key key, @required this.onSignIn, @required this.auth}) : super(key: key);
 
   Future _signInAnon() async {
     try {
-      final UserCredential userCredentials = await FirebaseAuth.instance.signInAnonymously();
-      onSignIn(userCredentials.user);
+      final User user = await auth.signInAnonymously();
+      onSignIn(user);
     } catch (e) {
       print(e.toString());
     }
@@ -36,7 +38,7 @@ class SignInPage extends StatelessWidget {
               color: Colors.white,
               text: 'Google',
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: _signInAnon,
             ),
             SizedBox(height: 10.0),
             SignInButton(
