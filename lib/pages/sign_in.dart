@@ -22,7 +22,7 @@ class SignInPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Sign In',
+          'Sign in to Hindsight',
           textAlign: TextAlign.center,
         ),
       ),
@@ -34,21 +34,21 @@ class SignInPage extends StatelessWidget {
           children: [
             SignInButton(
               color: Colors.white,
-              text: 'Sign in with Google',
+              text: 'Google',
               textColor: Colors.black,
               onPressed: () {},
             ),
             SizedBox(height: 10.0),
             SignInButton(
               color: Colors.lightBlue,
-              text: 'Sign in with Facebook',
+              text: 'Facebook',
               textColor: Colors.white,
               onPressed: () {},
             ),
             SizedBox(height: 10.0),
             SignInButton(
               color: Colors.blue,
-              text: 'Sign in with Email',
+              text: 'Email',
               textColor: Colors.white,
               onPressed: () {},
             ),
