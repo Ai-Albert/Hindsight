@@ -7,14 +7,6 @@ class SignInPage extends StatelessWidget {
   final AuthBase auth;
   const SignInPage({Key key, @required this.auth}) : super(key: key);
 
-  Future _signInAnon() async {
-    try {
-      await auth.signInAnonymously();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   Future _signInGoogle() async {
     try {
       await auth.signInGoogle();
