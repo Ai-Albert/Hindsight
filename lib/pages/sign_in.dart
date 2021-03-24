@@ -15,6 +15,14 @@ class SignInPage extends StatelessWidget {
     }
   }
 
+  Future _signInFB() async {
+    try {
+      await auth.signInFB();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,20 +42,39 @@ class SignInPage extends StatelessWidget {
               color: Colors.white,
               text: 'Google',
               textColor: Colors.black,
+              logo: 'assets/google.png',
               onPressed: _signInGoogle,
             ),
             SizedBox(height: 10.0),
+            // SignInButton(
+            //   color: Colors.white,
+            //   text: 'Apple',
+            //   textColor: Colors.black,
+            //   logo: 'assets/apple.png',
+            //   onPressed: () {},
+            // ),
+            // SizedBox(height: 10.0),
             SignInButton(
-              color: Colors.lightBlue,
+              color: Colors.blue[800],
               text: 'Facebook',
               textColor: Colors.white,
-              onPressed: () {},
+              logo: 'assets/facebook.png',
+              onPressed: _signInFB,
             ),
             SizedBox(height: 10.0),
+            // SignInButton(
+            //   color: Colors.white,
+            //   text: 'Microsoft',
+            //   textColor: Colors.black,
+            //   logo: 'assets/microsoft.png',
+            //   onPressed: () {},
+            // ),
+            // SizedBox(height: 10.0),
             SignInButton(
-              color: Colors.blue,
+              color: Colors.white,
               text: 'Email',
-              textColor: Colors.white,
+              textColor: Colors.black87,
+              logo: 'assets/email.png',
               onPressed: () {},
             ),
           ],

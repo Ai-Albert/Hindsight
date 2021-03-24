@@ -6,11 +6,13 @@ class SignInButton extends StatelessWidget {
   final String text;
   final Color textColor;
   final VoidCallback onPressed;
+  final String logo;
 
   SignInButton({
     this.color,
     this.text,
     this.textColor,
+    this.logo,
     this.onPressed,
   });
 
@@ -25,11 +27,27 @@ class SignInButton extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(30.0))
           )),
         ),
-        child: Text(
-          this.text,
-          style: TextStyle(
-            color: this.textColor,
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: EdgeInsets.all(5.0),
+              child: Image.asset('${this.logo}'),
+            ),
+            Text(
+              this.text,
+              style: TextStyle(
+                color: this.textColor,
+              ),
+            ),
+            Opacity(
+              opacity: 0.0,
+              child: Container(
+                padding: EdgeInsets.all(5.0),
+                child: Image.asset('${this.logo}'),
+              ),
+            ),
+          ],
         ),
         onPressed: this.onPressed,
       ),
