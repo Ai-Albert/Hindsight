@@ -31,8 +31,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
 
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           _appBarTitles[_currentIndex],
         ),
@@ -50,6 +52,7 @@ class _HomeState extends State<Home> {
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightBlue[900],
         child: _icons[_currentIndex],
         onPressed: () {
           if (_currentIndex == 0) {
@@ -62,6 +65,9 @@ class _HomeState extends State<Home> {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
+
+        backgroundColor: Colors.grey[850],
+        selectedItemColor: Colors.grey[350],
 
         currentIndex: _currentIndex,
         onTap: (index) {

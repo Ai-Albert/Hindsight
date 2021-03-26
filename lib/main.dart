@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hindsight',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.lightBlue[900],
       ),
       home: LandingPage(
         auth: Auth(),
