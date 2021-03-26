@@ -26,6 +26,7 @@ class SignInButton extends StatelessWidget {
           shape: MaterialStateProperty.all(RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(30.0))
           )),
+          elevation: MaterialStateProperty.all(5.0),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
