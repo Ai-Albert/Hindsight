@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hindsight/auth.dart';
-import 'package:hindsight/pages/logging.dart';
-import 'package:hindsight/pages/time_machine.dart';
+import 'package:hindsight/pages/app/logging.dart';
+import 'package:hindsight/pages/app/time_machine.dart';
 
 class Home extends StatefulWidget {
 

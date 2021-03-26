@@ -7,6 +7,8 @@ abstract class AuthBase {
   Stream<User> authStateChanges();
   Future<User> signInGoogle();
   Future<User> signInFB();
+  Future<User> signInEmail(String email, String password);
+  Future<User> createUserEmail(String email, String password);
   Future signOut();
 }
 
@@ -73,6 +75,24 @@ class Auth implements AuthBase {
       default:
         throw UnimplementedError();
     }
+  }
+
+  @override
+  Future<User> signInEmail(String email, String password) async {
+    final userCredential = await _firebaseAuth.signInWithCredential(EmailAuthProvider.credential(
+      email: email,
+      password: password,
+    ));
+    return userCredential.user;
+  }
+
+  @override
+  Future<User> createUserEmail(String email, String password) async {
+    final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return userCredential.user;
   }
 
   @override
