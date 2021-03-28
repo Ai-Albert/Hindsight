@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hindsight/auth.dart';
+import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
 import 'package:hindsight/pages/sign_in/valildators.dart';
 
 enum FormType {signIn, register}
@@ -39,12 +40,17 @@ class _EmailSignInBoxState extends State<EmailSignInBox> with EmailAndPasswordVa
     });
     try {
       if (_formState == FormType.signIn) {
-        await widget.auth.signInEmail(_emailController.text, _passwordController.text);
+        await widget.auth.signInEmail(_email, _password);
       } else {
-        await widget.auth.createUserEmail(_emailController.text, _passwordController.text);
+        await widget.auth.createUserEmail(_email, _password);
       }
     } catch (e) {
-      print(e.toString());
+      showAlertDialog(
+        context,
+        title: 'Sign in failed',
+        content: e.toString(),
+        defaultActionText: 'OK',
+      );
     } finally {
       _loading = false;
     }

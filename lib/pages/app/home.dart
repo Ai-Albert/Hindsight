@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hindsight/auth.dart';
+import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
 import 'package:hindsight/pages/app/logging.dart';
 import 'package:hindsight/pages/app/time_machine.dart';
 
@@ -19,6 +20,19 @@ class _HomeState extends State<Home> {
       await widget.auth.signOut();
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future _confirmSignOut(BuildContext context) async {
+    final request = await showAlertDialog(
+      context,
+      title: 'Logout',
+      content: 'Are you sure you want to log out?',
+      cancelActionText: 'Cancel',
+      defaultActionText: 'Log out',
+    );
+    if (request) {
+      _signOut();
     }
   }
 
@@ -44,7 +58,7 @@ class _HomeState extends State<Home> {
               Icons.exit_to_app_outlined,
               color: Colors.white,
             ),
-            onPressed: _signOut,
+            onPressed: () => _confirmSignOut(context),
           ),
         ],
       ),
