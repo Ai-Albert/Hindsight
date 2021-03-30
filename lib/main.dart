@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hindsight/auth.dart';
+import 'package:provider/provider.dart';
 import 'landing_page.dart';
 
 Future main() async {
@@ -12,13 +13,14 @@ Future main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hindsight',
-      theme: ThemeData(
-        primaryColor: Colors.lightBlue[900],
-      ),
-      home: LandingPage(
-        auth: Auth(),
+    return Provider<AuthBase>(
+      create: (context) => Auth(),
+      child: MaterialApp(
+        title: 'Hindsight',
+        theme: ThemeData(
+          primaryColor: Colors.lightBlue[900],
+        ),
+        home: LandingPage(),
       ),
     );
   }

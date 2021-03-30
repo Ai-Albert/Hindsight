@@ -2,23 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:hindsight/auth.dart';
 import 'package:hindsight/custom_widgets/sign_in_button.dart';
 import 'package:hindsight/pages/sign_in/email_sign_in_box.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
 
-  final AuthBase auth;
-  const SignInPage({Key key, @required this.auth}) : super(key: key);
-
-  Future _signInGoogle() async {
+  Future _signInGoogle(BuildContext context) async {
     try {
-      await auth.signInGoogle();
+      await Provider.of<AuthBase>(context, listen: false).signInGoogle();
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future _signInFB() async {
+  Future _signInFB(BuildContext context) async {
     try {
-      await auth.signInFB();
+      await Provider.of<AuthBase>(context, listen: false).signInFB();
     } catch (e) {
       print(e.toString());
     }
@@ -43,14 +41,14 @@ class SignInPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 30.0),
-              EmailSignInBox(auth: auth),
+              EmailSignInBox(),
               SizedBox(height: 30.0),
               SignInButton(
                 color: Colors.white,
                 text: 'Google',
                 textColor: Colors.black,
                 logo: 'assets/google.png',
-                onPressed: _signInGoogle,
+                onPressed: () => _signInGoogle(context),
               ),
               SizedBox(height: 15.0),
               SignInButton(
@@ -58,7 +56,7 @@ class SignInPage extends StatelessWidget {
                 text: 'Facebook',
                 textColor: Colors.white,
                 logo: 'assets/facebook.png',
-                onPressed: _signInFB,
+                onPressed: () => _signInFB(context),
               ),
             ],
           ),

@@ -3,27 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:hindsight/auth.dart';
 import 'package:hindsight/pages/app/home.dart';
 import 'package:hindsight/pages/sign_in/sign_in.dart';
+import 'package:provider/provider.dart';
 
 class LandingPage extends StatelessWidget {
-
-  final AuthBase auth;
-  const LandingPage({Key key, @required this.auth}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
-      stream: auth.authStateChanges(),
+      stream: Provider.of<AuthBase>(context, listen: false).authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final User user = snapshot.data;
           if (user == null) {
-            return SignInPage(
-              auth: auth,
-            );
+            return SignInPage();
           }
-          return Home(
-            auth: auth,
-          );
+          return Home();
         }
         return Scaffold(
           body: Center(

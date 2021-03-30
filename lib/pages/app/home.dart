@@ -3,12 +3,9 @@ import 'package:hindsight/auth.dart';
 import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
 import 'package:hindsight/pages/app/logging.dart';
 import 'package:hindsight/pages/app/time_machine.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
-
-  final AuthBase auth;
-  const Home({Key key, @required this.auth}) : super(key: key);
-
   @override
   _HomeState createState() => _HomeState();
 }
@@ -17,7 +14,7 @@ class _HomeState extends State<Home> {
 
   Future _signOut() async {
     try {
-      await widget.auth.signOut();
+      await Provider.of<AuthBase>(context, listen: false).signOut();
     } catch (e) {
       print(e.toString());
     }
@@ -79,17 +76,14 @@ class _HomeState extends State<Home> {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
-
         backgroundColor: Colors.grey[850],
         selectedItemColor: Colors.grey[350],
-
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-
         iconSize: 30,
         items: [
           BottomNavigationBarItem(

@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hindsight/auth.dart';
 import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
 import 'package:hindsight/pages/sign_in/valildators.dart';
+import 'package:provider/provider.dart';
 
 enum FormType {signIn, register}
 
 class EmailSignInBox extends StatefulWidget {
-
-  final AuthBase auth;
-  const EmailSignInBox({Key key, @required this.auth}) : super(key: key);
-
   @override
   _EmailSignInBoxState createState() => _EmailSignInBoxState();
 }
@@ -40,9 +37,9 @@ class _EmailSignInBoxState extends State<EmailSignInBox> with EmailAndPasswordVa
     });
     try {
       if (_formState == FormType.signIn) {
-        await widget.auth.signInEmail(_email, _password);
+        await Provider.of<AuthBase>(context, listen: false).signInEmail(_email, _password);
       } else {
-        await widget.auth.createUserEmail(_email, _password);
+        await Provider.of<AuthBase>(context, listen: false).createUserEmail(_email, _password);
       }
     } catch (e) {
       showAlertDialog(
