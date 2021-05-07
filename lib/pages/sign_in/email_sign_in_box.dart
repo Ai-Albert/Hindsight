@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hindsight/auth.dart';
+import 'package:hindsight/services/auth.dart';
 import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
 import 'package:hindsight/pages/sign_in/valildators.dart';
 import 'package:provider/provider.dart';

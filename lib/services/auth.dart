@@ -96,7 +96,7 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future signOut() {
+  Future<void> signOut() {
     _firebaseAuth.signOut();
     _googleSignIn.signOut();
     _fbLogin.logOut();

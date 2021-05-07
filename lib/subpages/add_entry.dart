@@ -9,8 +9,9 @@ class _AddEntryState extends State<AddEntry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text('Add Log Entry'),
+        title: Text('Add Log'),
       ),
       body: Container(),
     );

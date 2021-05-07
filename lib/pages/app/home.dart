@@ -1,8 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hindsight/auth.dart';
+import 'package:hindsight/custom_widgets/show_exception_alert_dialog.dart';
+import 'package:hindsight/models/entry.dart';
+import 'package:hindsight/services/auth.dart';
 import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
 import 'package:hindsight/pages/app/logging.dart';
 import 'package:hindsight/pages/app/time_machine.dart';
+import 'package:hindsight/services/database.dart';
+import 'package:hindsight/subpages/add_entry.dart';
+import 'package:hindsight/subpages/calendar_graph.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -33,10 +39,29 @@ class _HomeState extends State<Home> {
     }
   }
 
+  //TODO: put this in the class for creating entries
+  Future<void> _createEntry(BuildContext context) async {
+    try {
+      final database = Provider.of<Database>(context, listen: false);
+      await database.createEntry(Entry(
+        taskName: 'Task1',
+        start: 12,
+        estimated: 14,
+        actual: 15,
+      ));
+    } on FirebaseException catch(e) {
+      showExceptionAlert(
+        context,
+        title: 'Failed to create new entry',
+        exception: e,
+      );
+    }
+  }
+
   // Controls variable elements of the basic structure of the app
   int _currentIndex = 0;
   final List<Widget> _children = [Logging(), TimeMachine()];
-  final List<String> _appBarTitles = ['Logging', 'Time Machine'];
+  final List<String> _appBarTitles = ['Fireplace', 'Time Machine'];
   final List<Widget> _icons = [Icon(Icons.add), Icon(Icons.calendar_today_outlined)];
 
   @override
@@ -67,10 +92,16 @@ class _HomeState extends State<Home> {
         child: _icons[_currentIndex],
         onPressed: () {
           if (_currentIndex == 0) {
-            // TODO: navigate to the page for adding an entry
+            Navigator.of(context).push(MaterialPageRoute<void>(
+              fullscreenDialog: true,
+              builder: (context) => AddEntry(),
+            ));
           }
           else if (_currentIndex == 1) {
-            // TODO: navigate to calendar graph page
+            Navigator.of(context).push(MaterialPageRoute<void>(
+              fullscreenDialog: true,
+              builder: (context) => CalendarGraph(),
+            ));
           }
         },
       ),
