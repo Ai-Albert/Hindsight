@@ -30,6 +30,7 @@ class FirestoreService {
     Query Function(Query query) queryBuilder,
     int Function(T lhs, T rhs) sort,
   }) {
+    // Here the orderBy clause was added for this app specifically so DELETE for other apps
     Query query = FirebaseFirestore.instance.collection(path);
     if (queryBuilder != null) {
       query = queryBuilder(query);

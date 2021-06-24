@@ -11,6 +11,7 @@ class _CalendarGraphState extends State<CalendarGraph> {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Productivity Graph'),
       ),
       body: Center(

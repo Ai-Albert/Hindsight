@@ -99,8 +99,9 @@ class _AddTaskState extends State<AddTask> {
       final Task task = _taskFromState();
       if (task.taskName == '' || task.taskName == null)
         throw new FormatException('EMPTY_NAME');
-      if (task.start == task.estimated || task.start == task.actual)
-        throw new Exception('INVALID_TASK');
+      if (task.start.millisecondsSinceEpoch >= task.estimated.millisecondsSinceEpoch ||
+          task.start.millisecondsSinceEpoch >= task.actual.millisecondsSinceEpoch)
+        throw new Exception('INVALID_TIMES');
       await widget.database.setTask(task);
       Navigator.of(context).pop();
     } on FirebaseException catch (e) {
@@ -129,6 +130,7 @@ class _AddTaskState extends State<AddTask> {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Task Logging'),
         actions: <Widget>[
           TextButton(

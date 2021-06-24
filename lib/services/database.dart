@@ -36,5 +36,6 @@ class FirestoreDatabase implements Database {
   Stream<List<Task>> tasksStream() => _service.collectionStream(
     path: APIPath.tasks(uid),
     builder: (data, documentId) => Task.fromMap(data, documentId),
+    sort: (a, b) => b.start.compareTo(a.start),
   );
 }
