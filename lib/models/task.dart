@@ -28,18 +28,18 @@ class Task {
     return Task(
       id: id,
       taskName: taskName,
-      start: data['start_time'],
-      estimated: data['estimated_end_time'],
-      actual: data['actual_end_time'],
+      start: DateTime.fromMillisecondsSinceEpoch(data['start_time']),
+      estimated: DateTime.fromMillisecondsSinceEpoch(data['estimated_end_time']),
+      actual: DateTime.fromMillisecondsSinceEpoch(data['actual_end_time']),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'task_name': taskName,
-      'start_time': start,
-      'estimated_end_time': estimated,
-      'actual_end_time': actual,
+      'start_time': start.millisecondsSinceEpoch,
+      'estimated_end_time': estimated.millisecondsSinceEpoch,
+      'actual_end_time': actual.millisecondsSinceEpoch,
     };
   }
 }
