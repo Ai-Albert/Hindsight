@@ -13,7 +13,17 @@ class _CalendarGraphState extends State<CalendarGraph> {
       appBar: AppBar(
         title: Text('Productivity Graph'),
       ),
-      body: Container(),
+      body: Center(
+        child: Container(
+          child: Text(
+            'Coming Soon',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 32.0,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

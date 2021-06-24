@@ -8,6 +8,16 @@ class TimeMachine extends StatefulWidget {
 class _TimeMachineState extends State<TimeMachine> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Container(
+        child: Text(
+          'Coming Soon',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 32.0,
+          ),
+        ),
+      ),
+    );
   }
 }
