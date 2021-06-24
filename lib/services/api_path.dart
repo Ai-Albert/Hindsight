@@ -1,3 +1,4 @@
 class APIPath {
-  static String entry(String uid, String taskId) => 'users/$uid/entries/$taskId';
+  static String task(String uid, String taskId) => 'users/$uid/tasks/$taskId';
+  static String tasks(String uid) => 'users/$uid/tasks';
 }

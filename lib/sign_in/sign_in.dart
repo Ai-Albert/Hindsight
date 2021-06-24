@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hindsight/pages/sign_in/business_logic/sign_in_bloc.dart';
+import 'package:hindsight/sign_in/business_logic/sign_in_bloc.dart';
 import 'package:hindsight/services/auth.dart';
 import 'package:hindsight/custom_widgets/show_exception_alert_dialog.dart';
 import 'package:hindsight/custom_widgets/sign_in_button.dart';
-import 'package:hindsight/pages/sign_in/email_sign_in_box.dart';
+import 'package:hindsight/sign_in/email_sign_in_box.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _SignInPageState extends State<SignInPage> {
     if (exception is FirebaseException && exception.code == 'ERROR_ABORTED_BY_USER') {
       return;
     }
-    showExceptionAlert(
+    showExceptionAlertDialog(
       context,
       title: 'Sign in failed',
       exception: exception,

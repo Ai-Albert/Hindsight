@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hindsight/services/auth.dart';
-import 'package:hindsight/pages/app/home.dart';
-import 'package:hindsight/pages/sign_in/sign_in.dart';
+import 'package:hindsight/app/home.dart';
+import 'package:hindsight/sign_in/sign_in.dart';
 import 'package:hindsight/services/database.dart';
 import 'package:provider/provider.dart';
 

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
 
-Future showExceptionAlert(
+Future showExceptionAlertDialog(
   BuildContext context, {
   @required String title,
   @required Exception exception,

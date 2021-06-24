@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hindsight/services/auth.dart';
 import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
-import 'package:hindsight/pages/sign_in/valildators.dart';
+import 'package:hindsight/sign_in/valildators.dart';
 import 'package:provider/provider.dart';
 
 enum FormType {signIn, register}
@@ -71,7 +71,7 @@ class _EmailSignInBoxState extends State<EmailSignInBox> with EmailAndPasswordVa
     bool showPasswordError = _submitted && !passwordValid;
 
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
       color: Colors.grey[800],
       elevation: 5.0,
       child: Padding(
