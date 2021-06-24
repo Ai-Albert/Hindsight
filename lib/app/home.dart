@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hindsight/custom_widgets/show_exception_alert_dialog.dart';
-import 'package:hindsight/models/task.dart';
 import 'package:hindsight/services/auth.dart';
 import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
 import 'package:hindsight/app/fireplace/fireplace.dart';

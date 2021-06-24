@@ -97,12 +97,28 @@ class _AddTaskState extends State<AddTask> {
   Future<void> _setTaskAndDismiss(BuildContext context) async {
     try {
       final Task task = _taskFromState();
+      if (task.taskName == '' || task.taskName == null)
+        throw new FormatException('EMPTY_NAME');
+      if (task.start == task.estimated || task.start == task.actual)
+        throw new Exception('INVALID_TASK');
       await widget.database.setTask(task);
       Navigator.of(context).pop();
     } on FirebaseException catch (e) {
       showExceptionAlertDialog(
         context,
         title: 'Operation failed',
+        exception: e,
+      );
+    } on FormatException catch (e) {
+      showExceptionAlertDialog(
+        context,
+        title: 'Please enter a task name',
+        exception: e,
+      );
+    } catch (e) {
+      showExceptionAlertDialog(
+        context,
+        title: 'Not a valid task',
         exception: e,
       );
     }
@@ -144,6 +160,8 @@ class _AddTaskState extends State<AddTask> {
                   SizedBox(height: 8.0),
                   _buildActualDate(),
                   SizedBox(height: 8.0),
+                  _buildEfficiency(),
+                  SizedBox(height: 8.0),
                 ],
               ),
             ),
@@ -164,7 +182,7 @@ class _AddTaskState extends State<AddTask> {
           color: Colors.white,
         ),
       ),
-      style: TextStyle(fontSize: 20.0, color: Colors.white),
+      style: TextStyle(fontSize: 19.0, color: Colors.white),
       onChanged: (name) => _taskName = name,
     );
   }
@@ -196,6 +214,21 @@ class _AddTaskState extends State<AddTask> {
       selectedTime: _actualEndTime,
       onSelectDate: (date) => setState(() => _actualEndDate = date),
       onSelectTime: (time) => setState(() => _actualEndTime = time),
+    );
+  }
+
+  Widget _buildEfficiency() {
+    final currentTask = _taskFromState();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          'Efficiency: ${(currentTask.efficiency).toStringAsFixed(2)}',
+          style: TextStyle(fontSize: 17.0, color: Colors.white),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
   }
 }

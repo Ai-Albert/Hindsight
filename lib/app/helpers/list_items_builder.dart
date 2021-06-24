@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../empty_content.dart';
-import '../empty_content.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
@@ -37,7 +36,7 @@ class ListItemsBuilder<T> extends StatelessWidget {
       separatorBuilder: (context, index) => Divider(height: 0.5),
       itemBuilder: (context, index) {
         if (index == 0 || index == items.length + 1) {
-          return Container();
+          return Container(height: 5.0);
         }
         return itemBuilder(context, items[index - 1]);
       },
