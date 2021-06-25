@@ -10,13 +10,18 @@ class TaskListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Card(
-        color: Colors.grey[800],
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: _buildTile(context),
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      margin: EdgeInsets.all(6.0),
+      color: Colors.grey[800],
+      child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        onTap: onTap,
+        child: Center(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: _buildTile(context),
+          ),
         ),
       ),
     );
