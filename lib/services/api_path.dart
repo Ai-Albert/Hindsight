@@ -1,4 +1,11 @@
 class APIPath {
-  static String task(String uid, String taskId) => 'users/$uid/tasks/$taskId';
-  static String tasks(String uid) => 'users/$uid/tasks';
+  static String dates(String uid) =>
+      'users/$uid/dates';
+  static String date(String uid, String dateId) =>
+      'users/$uid/dates/$dateId';
+
+  static String tasks(String uid, String dateId) =>
+      'users/$uid/dates/$dateId/tasks';
+  static String task(String uid, String dateId, String taskId) =>
+      'users/$uid/dates/$dateId/tasks/$taskId';
 }

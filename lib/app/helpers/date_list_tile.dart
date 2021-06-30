@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hindsight/models/task.dart';
+import 'package:hindsight/models/date.dart';
 
-class TaskListTile extends StatelessWidget {
-  const TaskListTile({Key key, @required this.task, this.onTap}) : super(key: key);
+class DateListTile extends StatelessWidget {
+  const DateListTile({Key key, @required this.date, this.onTap}) : super(key: key);
 
-  final Task task;
+  final Date date;
   final VoidCallback onTap;
 
   @override
@@ -36,8 +36,12 @@ class TaskListTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(task.taskName, style: style),
-          Text('Efficiency: ${(task.efficiency).toStringAsFixed(2)}', style: style),
+          Opacity(
+            opacity: 0.0,
+            child: Icon(Icons.arrow_forward_ios),
+          ),
+          Text(date.formattedDate, style: style),
+          Icon(Icons.arrow_forward_ios, color: Colors.white),
         ],
       ),
     );
