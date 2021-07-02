@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hindsight/app/fireplace/date_tasks.dart';
 import 'package:hindsight/app/helpers/date_list_tile.dart';
 import 'package:hindsight/app/helpers/list_items_builder.dart';
 import 'package:hindsight/custom_widgets/show_exception_alert_dialog.dart';
@@ -42,7 +43,9 @@ class Fireplace extends StatelessWidget {
             onDismissed: (direction) => _deleteDate(context, date),
             child: DateListTile(
               date: date,
-              onTap: () => null,
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => DateTasks(date: date, database: database),
+              )),
             ),
           ),
         );

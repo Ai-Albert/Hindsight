@@ -66,6 +66,10 @@ class FirestoreDatabase implements Database {
     await _service.deleteData(
       path: APIPath.task(uid, date.id, task.id),
     );
+    print(date.id + task.id);
+    Stream stream = tasksStream(date);
+    bool empty = await stream.isEmpty;
+    if (empty) deleteDate(date);
   }
 
   // Providing the task entries for each date in the Fireplace page

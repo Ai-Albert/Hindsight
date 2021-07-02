@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hindsight/custom_widgets/date_time_picker.dart';
 import 'package:hindsight/custom_widgets/show_exception_alert_dialog.dart';
-import 'package:hindsight/models/date.dart';
 import 'package:hindsight/models/task.dart';
 import 'package:hindsight/services/database.dart';
-import 'package:intl/intl.dart';
 
 class AddTask extends StatefulWidget {
   // The Task is passed into show() if editing an existing task, otherwise task is null

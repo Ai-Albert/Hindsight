@@ -36,7 +36,11 @@ class TaskListTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(task.taskName, style: style),
+          Text('Name: ${task.taskName}', style: style),
+          Opacity(
+            opacity: 0.0,
+            child: Icon(Icons.add),
+          ),
           Text('Efficiency: ${(task.efficiency).toStringAsFixed(2)}', style: style),
         ],
       ),
