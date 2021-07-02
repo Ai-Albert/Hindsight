@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hindsight/models/date.dart';
 import 'package:hindsight/models/task.dart';
@@ -34,12 +35,16 @@ class FirestoreDatabase implements Database {
     );
   }
 
-  // Deleting all the entries for a date
-  // TODO: delete all entries inside then do current statement
+  // Deleting all the entries for a date and then deleting the date entry itself
   @override
-  Future<void> deleteDate(Date date) async => await _service.deleteData(
-      path: APIPath.date(uid, date.id),
-  );
+  Future<void> deleteDate(Date date) async {
+    var collection = FirebaseFirestore.instance.collection(APIPath.tasks(uid, date.id));
+    var snapshots = await collection.get();
+    for (var doc in snapshots.docs) {
+      await doc.reference.delete();
+    }
+    await _service.deleteData(path: APIPath.date(uid, date.id));
+  }
 
   // Getting dates for Fireplace page
   @override
@@ -60,16 +65,16 @@ class FirestoreDatabase implements Database {
     );
   }
 
-  // Deleting a task
+  // Deleting a task, if that was the last task in the date collection then delete the date too
   @override
   Future<void> deleteTask(Date date, Task task) async {
     await _service.deleteData(
       path: APIPath.task(uid, date.id, task.id),
     );
     print(date.id + task.id);
-    Stream stream = tasksStream(date);
-    bool empty = await stream.isEmpty;
-    if (empty) deleteDate(date);
+    var collection = FirebaseFirestore.instance.collection(APIPath.tasks(uid, date.id));
+    var snapshots = await collection.get();
+    if (snapshots.size == 0) await _service.deleteData(path: APIPath.date(uid, date.id));
   }
 
   // Providing the task entries for each date in the Fireplace page
