@@ -8,4 +8,9 @@ class APIPath {
       'users/$uid/dates/$dateId/tasks';
   static String task(String uid, String dateId, String taskId) =>
       'users/$uid/dates/$dateId/tasks/$taskId';
+
+  static String comparisons(String uid) =>
+      'users/$uid/comparisons';
+  static String comparison(String uid, String comparisonId) =>
+      'users/$uid/comparisons/$comparisonId';
 }

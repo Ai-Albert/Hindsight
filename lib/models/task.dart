@@ -14,9 +14,7 @@ class Task {
   final DateTime actual;
 
   double get estimatedDurationInHours => estimated.difference(start).inMinutes.toDouble() / 60.0;
-
   double get actualDurationInHours => actual.difference(start).inMinutes.toDouble() / 60.0;
-
   double get efficiency => estimatedDurationInHours / actualDurationInHours;
 
   factory Task.fromMap(Map<String, dynamic> data, String id) {

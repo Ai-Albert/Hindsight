@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hindsight/models/comparison.dart';
 import 'package:hindsight/models/date.dart';
 import 'package:hindsight/models/task.dart';
 import 'package:hindsight/services/api_path.dart';
@@ -7,13 +8,17 @@ import 'package:hindsight/services/firestore_service.dart';
 import 'package:intl/intl.dart';
 
 abstract class Database {
-  Future<void> setDate(DateTime dateTime);
-  Future<void> deleteDate(Date date);
   Stream<List<Date>> datesStream();
+  Future<void> setDate(Date date);
+  Future<void> deleteDate(Date date);
 
+  Stream<List<Task>> tasksStream(Date date);
   Future<void> setTask(Task task);
   Future<void> deleteTask(Date date, Task task);
-  Stream<List<Task>> tasksStream(Date date);
+
+  Stream<List<Comparison>> comparisonsStream();
+  Future<void> setComparison(Comparison comparison);
+  Future<void> deleteComparison(Comparison comparison);
 }
 
 // For creating unique ids for new entries
@@ -25,10 +30,17 @@ class FirestoreDatabase implements Database {
 
   final _service = FirestoreService.instance;
 
+  // Getting dates for Fireplace page
+  @override
+  Stream<List<Date>> datesStream() => _service.collectionStream(
+    path: APIPath.dates(uid),
+    builder: (data, documentId) => Date.fromMap(data, documentId),
+    sort: (a, b) => b.date.compareTo(a.date),
+  );
+
   // Setting date before task to make sure the date itself has a document
   @override
-  Future<void> setDate(DateTime dateTime) {
-    Date date = Date(id: DateFormat('MM-dd-yyyy').format(dateTime), date: dateTime);
+  Future<void> setDate(Date date) {
     _service.setData(
       path: APIPath.date(uid, date.id),
       data: date.toMap(),
@@ -46,12 +58,12 @@ class FirestoreDatabase implements Database {
     await _service.deleteData(path: APIPath.date(uid, date.id));
   }
 
-  // Getting dates for Fireplace page
+  // Providing the task entries for each date in the Fireplace page
   @override
-  Stream<List<Date>> datesStream() => _service.collectionStream(
-    path: APIPath.dates(uid),
-    builder: (data, documentId) => Date.fromMap(data, documentId),
-    sort: (a, b) => b.date.compareTo(a.date),
+  Stream<List<Task>> tasksStream(Date date) => _service.collectionStream(
+    path: APIPath.tasks(uid, date.id),
+    builder: (data, documentId) => Task.fromMap(data, documentId),
+    sort: (a, b) => b.start.compareTo(a.start),
   );
 
   // Creating or updating a task
@@ -77,11 +89,21 @@ class FirestoreDatabase implements Database {
     if (snapshots.size == 0) await _service.deleteData(path: APIPath.date(uid, date.id));
   }
 
-  // Providing the task entries for each date in the Fireplace page
+  // Providing the comparisons for
   @override
-  Stream<List<Task>> tasksStream(Date date) => _service.collectionStream(
-    path: APIPath.tasks(uid, date.id),
-    builder: (data, documentId) => Task.fromMap(data, documentId),
-    sort: (a, b) => b.start.compareTo(a.start),
+  Stream<List<Comparison>> comparisonsStream() => _service.collectionStream(
+    path: APIPath.comparisons(uid),
+    builder: (data, documentId) => Comparison.fromMap(data, documentId),
+  );
+
+  // Creating a comparison entry in the database
+  Future<void> setComparison(Comparison comparison) => _service.setData(
+    path: APIPath.comparison(uid, comparison.id),
+    data: comparison.toMap(),
+  );
+
+  // Removing a comparison entry in the database
+  Future<void> deleteComparison(Comparison comparison) async => await _service.deleteData(
+    path: APIPath.comparison(uid, comparison.id),
   );
 }

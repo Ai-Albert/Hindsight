@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hindsight/custom_widgets/date_time_picker.dart';
 import 'package:hindsight/custom_widgets/show_exception_alert_dialog.dart';
+import 'package:hindsight/models/date.dart';
 import 'package:hindsight/models/task.dart';
 import 'package:hindsight/services/database.dart';
+import 'package:intl/intl.dart';
 
 class AddTask extends StatefulWidget {
   // The Task is passed into show() if editing an existing task, otherwise task is null
@@ -38,6 +40,7 @@ class _AddTaskState extends State<AddTask> {
   TimeOfDay _estimatedEndTime;
   DateTime _actualEndDate;
   TimeOfDay _actualEndTime;
+  Date _initialDate;
 
   // Setting up initial values in the form
   @override
@@ -57,6 +60,8 @@ class _AddTaskState extends State<AddTask> {
     final actual = widget.task?.actual ?? DateTime.now();
     _actualEndDate = DateTime(actual.year, actual.month, actual.day);
     _actualEndTime = TimeOfDay.fromDateTime(actual);
+
+    _initialDate = Date(id: DateFormat('MM-dd-yyyy').format(_startDate), date: _startDate);
   }
 
   // Creating a Task object from the info input into the form so far
@@ -103,7 +108,10 @@ class _AddTaskState extends State<AddTask> {
           task.start.millisecondsSinceEpoch >= task.actual.millisecondsSinceEpoch)
         throw new Exception('INVALID_TIMES');
 
-      await widget.database.setDate(DateTime(task.start.year, task.start.month, task.start.day));
+      DateTime dateTime = DateTime(task.start.year, task.start.month, task.start.day);
+      Date date = Date(id: DateFormat('MM-dd-yyyy').format(dateTime), date: dateTime);
+      await widget.database.deleteTask(_initialDate, task);
+      await widget.database.setDate(date);
       await widget.database.setTask(task);
       Navigator.of(context).pop();
     } on FirebaseException catch (e) {

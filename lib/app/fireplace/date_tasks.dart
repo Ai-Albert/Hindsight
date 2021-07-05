@@ -10,15 +10,6 @@ import 'add_task.dart';
 
 class DateTasks extends StatelessWidget {
 
-  static Future<void> show(BuildContext context, {Date date, Database database}) async {
-    await Navigator.of(context, rootNavigator: true).push(
-      MaterialPageRoute(
-        builder: (context) => DateTasks(date: date, database: database),
-        fullscreenDialog: true,
-      ),
-    );
-  }
-
   const DateTasks({Key key, @required this.date, @required this.database}) : super(key: key);
 
   final Date date;

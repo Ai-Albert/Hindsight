@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CalendarGraph extends StatefulWidget {
-  @override
-  _CalendarGraphState createState() => _CalendarGraphState();
-}
-
-class _CalendarGraphState extends State<CalendarGraph> {
+class Archive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Productivity Graph'),
+        title: Text('Archive'),
       ),
       body: Center(
         child: Container(

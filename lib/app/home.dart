@@ -5,7 +5,7 @@ import 'package:hindsight/app/fireplace/fireplace.dart';
 import 'package:hindsight/app/time_machine/time_machine.dart';
 import 'package:hindsight/services/database.dart';
 import 'package:hindsight/app/fireplace/add_task.dart';
-import 'package:hindsight/app/time_machine/calendar_graph.dart';
+import 'package:hindsight/app/time_machine/archive.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
           else if (_currentIndex == 1) {
             Navigator.of(context).push(MaterialPageRoute<void>(
               fullscreenDialog: true,
-              builder: (context) => CalendarGraph(),
+              builder: (context) => Archive(),
             ));
           }
         },

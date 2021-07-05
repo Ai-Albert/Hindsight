@@ -9,13 +9,6 @@ import 'package:hindsight/services/database.dart';
 import 'package:provider/provider.dart';
 
 class Fireplace extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: _buildTasks(context),
-    );
-  }
-
   Future<void> _deleteDate(BuildContext context, Date date) async {
     try {
       final database = Provider.of<Database>(context, listen: false);
@@ -29,7 +22,14 @@ class Fireplace extends StatelessWidget {
     }
   }
 
-  Widget _buildTasks(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: _buildDates(context),
+    );
+  }
+
+  Widget _buildDates(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
     return StreamBuilder<List<Date>>(
       stream: database.datesStream(),
