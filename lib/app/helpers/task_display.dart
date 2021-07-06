@@ -3,7 +3,7 @@ import 'package:hindsight/models/task.dart';
 import 'package:intl/intl.dart';
 
 class TaskDisplay extends StatelessWidget {
-  const TaskDisplay({Key key, @required this.task, this.onTap}) : super(key: key);
+  TaskDisplay({Key key, @required this.task, this.onTap}) : super(key: key);
 
   final Task task;
   final VoidCallback onTap;
@@ -81,7 +81,7 @@ class TaskDisplay extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(50.0)),
         border: Border.all(color: Colors.white),
       ),
-      child: SizedBox(height: 17.0, child: Expanded(child: Container())),
+      child: SizedBox(height: 17.0, child: Container()),
     );
   }
 }

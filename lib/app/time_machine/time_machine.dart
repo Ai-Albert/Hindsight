@@ -1,20 +1,55 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hindsight/app/helpers/task_display.dart';
 import 'package:hindsight/app/time_machine/select_date.dart';
+import 'package:hindsight/custom_widgets/show_exception_alert_dialog.dart';
+import 'package:hindsight/models/comparison.dart';
 import 'package:hindsight/models/task.dart';
 import 'package:hindsight/services/database.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TimeMachine extends StatefulWidget {
+  const TimeMachine({Key key, @required this.tasks}) : super(key: key);
+
+  final List<Task> tasks;
+
   @override
   _TimeMachineState createState() => _TimeMachineState();
 }
 
 class _TimeMachineState extends State<TimeMachine> {
-  List<Task> tasks = [null, null];
+
+  List<Task> tasks;
+
+  Future<void> _saveComparison(BuildContext context) async {
+    final Database database = Provider.of<Database>(context, listen: false);
+    try {
+      if (tasks[0] == null || tasks[1] == null) throw Exception();
+      Comparison comparison = Comparison(
+        id: "${tasks[0].id}_${tasks[1].id}",
+        taskName1: tasks[0].taskName,
+        start1: tasks[0].start,
+        estimated1: tasks[0].estimated,
+        actual1: tasks[0].actual,
+        taskName2: tasks[1].taskName,
+        start2: tasks[1].start,
+        estimated2: tasks[1].estimated,
+        actual2: tasks[1].actual,
+      );
+      await database.setComparison(comparison);
+    } catch (e) {
+      showExceptionAlertDialog(
+        context,
+        title: 'Operation failed',
+        exception: e,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    tasks = widget.tasks;
     return Column(
       children: [
         SizedBox(height: 5.0),
@@ -24,7 +59,7 @@ class _TimeMachineState extends State<TimeMachine> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _efficiencyCard(),
-            _refreshButton(),
+            _saveButton(),
           ],
         ),
       ],
@@ -35,10 +70,13 @@ class _TimeMachineState extends State<TimeMachine> {
     final database = Provider.of<Database>(context, listen: false);
     return TaskDisplay(
       task: tasks.length >= taskNum ? tasks[taskNum] : null,
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            SelectDate(database: database, tasks: tasks, taskNum: taskNum),
-      )),
+      onTap: () async {
+        await Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              SelectDate(database: database, tasks: tasks, taskNum: taskNum),
+        ));
+        setState(() {});
+      }
     );
   }
 
@@ -54,7 +92,7 @@ class _TimeMachineState extends State<TimeMachine> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Efficiency Difference (e1 - e2):',
+                'Efficiency Difference:',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
               Text(
@@ -68,7 +106,7 @@ class _TimeMachineState extends State<TimeMachine> {
     );
   }
 
-  Widget _refreshButton() {
+  Widget _saveButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(3, 0, 6, 6),
       child: ElevatedButton(
@@ -77,13 +115,11 @@ class _TimeMachineState extends State<TimeMachine> {
           backgroundColor: MaterialStateProperty.all(Colors.lightBlue[900]),
           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))),
         ),
-        onPressed: () {
-          setState(() {});
-        },
+        onPressed: () => _saveComparison(context),
         child: Row(
           children: [
-            Text('Refresh'),
-            Icon(Icons.refresh),
+            Text('Save Comparison '),
+            Icon(Icons.save_outlined),
           ],
         ),
       ),

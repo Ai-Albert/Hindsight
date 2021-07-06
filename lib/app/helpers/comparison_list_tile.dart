@@ -3,10 +3,9 @@ import 'package:hindsight/models/comparison.dart';
 import 'package:intl/intl.dart';
 
 class ComparisonListTile extends StatelessWidget {
-  const ComparisonListTile({Key key, @required this.comparison, this.onTap}) : super(key: key);
+  const ComparisonListTile({Key key, @required this.comparison}) : super(key: key);
 
   final Comparison comparison;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,6 @@ class ComparisonListTile extends StatelessWidget {
       color: Colors.grey[800],
       child: InkWell(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        onTap: onTap,
         child: Center(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -37,21 +35,22 @@ class ComparisonListTile extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('${DateFormat('MM-dd-yyyy').format(comparison.start1)}', style: style),
               Text('${comparison.taskName1}', style: style),
+              Text('${DateFormat('MM-dd-yyyy').format(comparison.start1)}', style: style),
               Text('Efficiency: ${(comparison.efficiency1).toStringAsFixed(2)}', style: style),
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('${DateFormat('MM-dd-yyyy').format(comparison.start2)}', style: style),
               Text('${comparison.taskName2}', style: style),
+              Text('${DateFormat('MM-dd-yyyy').format(comparison.start2)}', style: style),
               Text('Efficiency: ${(comparison.efficiency2).toStringAsFixed(2)}', style: style),
             ],
           ),
+          SizedBox(height: 7.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

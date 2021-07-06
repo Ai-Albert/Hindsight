@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hindsight/models/task.dart';
 import 'package:hindsight/services/auth.dart';
 import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
 import 'package:hindsight/app/fireplace/fireplace.dart';
@@ -14,6 +15,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  // Controls variable elements of the basic structure of the app
+  int _currentIndex = 0;
+  List<Task> tasks = [null, null];
+  List<Widget> _children = [];
+  final List<String> _appBarTitles = ['Fireplace', 'Time Machine'];
+  final List<Widget> _icons = [Icon(Icons.add), Icon(Icons.file_copy_outlined)];
+
+  @override
+  void initState() {
+    super.initState();
+    _children = [Fireplace(), TimeMachine(tasks: tasks)];
+  }
 
   // Signs out using Firebase
   Future _signOut() async {
@@ -37,12 +51,6 @@ class _HomeState extends State<Home> {
       _signOut();
     }
   }
-
-  // Controls variable elements of the basic structure of the app
-  int _currentIndex = 0;
-  final List<Widget> _children = [Fireplace(), TimeMachine()];
-  final List<String> _appBarTitles = ['Fireplace', 'Time Machine'];
-  final List<Widget> _icons = [Icon(Icons.add), Icon(Icons.calendar_today_outlined)];
 
   @override
   Widget build(BuildContext context) {
@@ -71,14 +79,14 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.lightBlue[900],
         child: _icons[_currentIndex],
         onPressed: () {
+          final database = Provider.of<Database>(context, listen: false);
           if (_currentIndex == 0) {
-            final database = Provider.of<Database>(context, listen: false);
             AddTask.show(context, database: database);
           }
           else if (_currentIndex == 1) {
             Navigator.of(context).push(MaterialPageRoute<void>(
               fullscreenDialog: true,
-              builder: (context) => Archive(),
+              builder: (context) => Archive(database: database),
             ));
           }
         },

@@ -13,6 +13,7 @@ abstract class Database {
   Future<void> deleteDate(Date date);
 
   Stream<List<Task>> tasksStream(Date date);
+  Stream<Task> taskStream(Date date, String taskId);
   Future<void> setTask(Task task);
   Future<void> deleteTask(Date date, Task task);
 
@@ -47,14 +48,26 @@ class FirestoreDatabase implements Database {
     );
   }
 
-  // Deleting all the entries for a date and then deleting the date entry itself
+  // Deleting all the tasks for a date and then deleting the date entry itself
   @override
   Future<void> deleteDate(Date date) async {
-    var collection = FirebaseFirestore.instance.collection(APIPath.tasks(uid, date.id));
-    var snapshots = await collection.get();
-    for (var doc in snapshots.docs) {
-      await doc.reference.delete();
+
+    // Deleting tasks
+    var dateTasks = FirebaseFirestore.instance.collection(APIPath.tasks(uid, date.id));
+    var snapshotsTasks = await dateTasks.get();
+    for (var task in snapshotsTasks.docs) {
+
+      // Going through comparisons to delete those that include the current task being examined
+      var comparisons = FirebaseFirestore.instance.collection(APIPath.comparisons(uid));
+      var snapshotsComparisons = await comparisons.get();
+      for (var comparison in snapshotsComparisons.docs) {
+        if (comparison.id.contains(task.id)) await comparison.reference.delete();
+      }
+
+      await task.reference.delete();
     }
+
+    // Deleting date
     await _service.deleteData(path: APIPath.date(uid, date.id));
   }
 
@@ -64,6 +77,13 @@ class FirestoreDatabase implements Database {
     path: APIPath.tasks(uid, date.id),
     builder: (data, documentId) => Task.fromMap(data, documentId),
     sort: (a, b) => b.start.compareTo(a.start),
+  );
+
+  // Getting individual tasks for comparisons
+  @override
+  Stream<Task> taskStream(Date date, String taskId) => _service.documentStream(
+    path: APIPath.task(uid, date.id, taskId),
+    builder: (data, documentId) => Task.fromMap(data, documentId),
   );
 
   // Creating or updating a task
@@ -80,10 +100,19 @@ class FirestoreDatabase implements Database {
   // Deleting a task, if that was the last task in the date collection then delete the date too
   @override
   Future<void> deleteTask(Date date, Task task) async {
+    // Deleting comparisons relating to the task
+    var comparisons = FirebaseFirestore.instance.collection(APIPath.comparisons(uid));
+    var snapshotsComparisons = await comparisons.get();
+    for (var comparison in snapshotsComparisons.docs) {
+      if (comparison.id.contains(task.id)) await comparison.reference.delete();
+    }
+
+    // Deleting task
     await _service.deleteData(
       path: APIPath.task(uid, date.id, task.id),
     );
-    print(date.id + task.id);
+
+    // Deleting the date if this was the last task for that date
     var collection = FirebaseFirestore.instance.collection(APIPath.tasks(uid, date.id));
     var snapshots = await collection.get();
     if (snapshots.size == 0) await _service.deleteData(path: APIPath.date(uid, date.id));
@@ -94,6 +123,7 @@ class FirestoreDatabase implements Database {
   Stream<List<Comparison>> comparisonsStream() => _service.collectionStream(
     path: APIPath.comparisons(uid),
     builder: (data, documentId) => Comparison.fromMap(data, documentId),
+    sort: (a,b) => b.start1.compareTo(a.start1),
   );
 
   // Creating a comparison entry in the database
