@@ -229,13 +229,15 @@ class _AddTaskState extends State<AddTask> {
     );
   }
 
+
+
   Widget _buildEfficiency() {
     final currentTask = _taskFromState();
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'Efficiency: ${(currentTask.efficiency).toStringAsFixed(2)}',
+          'Efficiency: ${currentTask.efficiency.isNaN ? "" : (currentTask.efficiency).toStringAsFixed(2)}',
           style: TextStyle(fontSize: 17.0, color: Colors.white),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

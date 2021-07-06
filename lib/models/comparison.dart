@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hindsight/models/task.dart';
 
 class Comparison {
   Comparison({

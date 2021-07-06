@@ -44,28 +44,48 @@ class DateTimePicker extends StatelessWidget {
       color: Colors.white,
       fontSize: 18.0,
     );
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        Expanded(
-          flex: 5,
-          child: InputDropdown(
-            labelText: labelText,
-            valueText: Format.date(selectedDate),
-            valueStyle: valueStyle,
-            onPressed: () => _selectDate(context),
-          ),
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Expanded(
+              flex: 5,
+              child: InputDropdown(
+                labelText: labelText,
+                valueText: Format.date(selectedDate),
+                valueStyle: valueStyle,
+                onPressed: () => _selectDate(context),
+              ),
+            ),
+            SizedBox(width: 12.0),
+            Expanded(
+              flex: 4,
+              child: InputDropdown(
+                valueText: selectedTime.format(context),
+                valueStyle: valueStyle,
+                onPressed: () => _selectTime(context),
+              ),
+            ),
+          ],
         ),
-        SizedBox(width: 12.0),
-        Expanded(
-          flex: 4,
-          child: InputDropdown(
-            valueText: selectedTime.format(context),
-            valueStyle: valueStyle,
-            onPressed: () => _selectTime(context),
-          ),
-        ),
+        _buildEasyPicker()
       ],
+    );
+  }
+
+  Widget _buildEasyPicker() {
+    return ElevatedButton(
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all(0.0),
+        backgroundColor: MaterialStateProperty.all(Colors.lightBlue[900]),
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))),
+      ),
+      onPressed: () {
+        onSelectDate(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
+        onSelectTime(TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute));
+      },
+      child: Center(child: Text('Set as current date/time')),
     );
   }
 }

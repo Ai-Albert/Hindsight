@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hindsight/app/helpers/task_display.dart';
 import 'package:hindsight/app/time_machine/select_date.dart';
@@ -6,7 +5,6 @@ import 'package:hindsight/custom_widgets/show_exception_alert_dialog.dart';
 import 'package:hindsight/models/comparison.dart';
 import 'package:hindsight/models/task.dart';
 import 'package:hindsight/services/database.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TimeMachine extends StatefulWidget {

@@ -28,9 +28,9 @@ class TaskDisplay extends StatelessWidget {
   }
 
   Widget _buildTile(BuildContext context) {
-    String formattedStart = task != null ? DateFormat('MM-dd-yyyy hh:mm a').format(task.start) : '';
-    String formattedEstimated = task != null ? DateFormat('MM-dd-yyyy hh:mm a').format(task.estimated) : '';
-    String formattedActual = task != null ? DateFormat('MM-dd-yyyy hh:mm a').format(task.actual) : '';
+    String formattedStart = task != null ? DateFormat('MM-dd-yyyy   hh:mm a').format(task.start) : '';
+    String formattedEstimated = task != null ? DateFormat('MM-dd-yyyy   hh:mm a').format(task.estimated) : '';
+    String formattedActual = task != null ? DateFormat('MM-dd-yyyy   hh:mm a').format(task.actual) : '';
 
     final TextStyle style = TextStyle(
       color: Colors.white,
