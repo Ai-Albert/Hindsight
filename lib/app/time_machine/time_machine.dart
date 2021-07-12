@@ -53,13 +53,9 @@ class _TimeMachineState extends State<TimeMachine> {
         SizedBox(height: 5.0),
         _selectTask(tasks, 0),
         _selectTask(tasks, 1),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _efficiencyCard(),
-            _saveButton(),
-          ],
-        ),
+        SizedBox(height: 5.0),
+        _efficiencyCard(),
+        _saveButton(),
       ],
     );
   }
@@ -79,15 +75,15 @@ class _TimeMachineState extends State<TimeMachine> {
   }
 
   Widget _efficiencyCard() {
-    return Expanded(
-      child: Card(
+    //return Expanded(
+     /* child:*/ return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
         margin: EdgeInsets.fromLTRB(6, 0, 3, 6),
         color: Colors.grey[800],
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'Efficiency Difference:',
@@ -100,8 +96,8 @@ class _TimeMachineState extends State<TimeMachine> {
             ],
           ),
         ),
-      ),
-    );
+      );
+    //);
   }
 
   Widget _saveButton() {
@@ -115,6 +111,7 @@ class _TimeMachineState extends State<TimeMachine> {
         ),
         onPressed: () => _saveComparison(context),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Save Comparison '),
             Icon(Icons.save_outlined),
