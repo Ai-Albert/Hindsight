@@ -20,6 +20,8 @@ abstract class Database {
   Stream<List<Comparison>> comparisonsStream();
   Future<void> setComparison(Comparison comparison);
   Future<void> deleteComparison(Comparison comparison);
+
+  Future<void> deleteData();
 }
 
 // For creating unique ids for new entries
@@ -127,13 +129,35 @@ class FirestoreDatabase implements Database {
   );
 
   // Creating a comparison entry in the database
+  @override
   Future<void> setComparison(Comparison comparison) => _service.setData(
     path: APIPath.comparison(uid, comparison.id),
     data: comparison.toMap(),
   );
 
   // Removing a comparison entry in the database
+  @override
   Future<void> deleteComparison(Comparison comparison) async => await _service.deleteData(
     path: APIPath.comparison(uid, comparison.id),
   );
+
+  // Deleting all of a user's data prior to account deletion
+  @override
+  Future<void> deleteData() async {
+    // Deleting dates
+    var dates = FirebaseFirestore.instance.collection(APIPath.dates(uid));
+    var snapshotsDates = await dates.get();
+    for (var date in snapshotsDates.docs) {
+      await this.deleteDate(Date.fromMap(date.data(), date.id));
+      await date.reference.delete();
+    }
+
+    // Deleting comparisons
+    var comparisons = FirebaseFirestore.instance.collection(APIPath.comparisons(uid));
+    var snapshotsComparisons = await comparisons.get();
+    for (var comparison in snapshotsComparisons.docs) {
+      await this.deleteComparison(Comparison.fromMap(comparison.data(), comparison.id));
+      await comparison.reference.delete();
+    }
+  }
 }

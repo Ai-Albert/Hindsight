@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hindsight/custom_widgets/show_exception_alert_dialog.dart';
 import 'package:hindsight/models/task.dart';
 import 'package:hindsight/services/auth.dart';
 import 'package:hindsight/custom_widgets/show_alert_dialog.dart';
@@ -52,6 +53,39 @@ class _HomeState extends State<Home> {
     }
   }
 
+  // Signs out using Firebase
+  Future _accountDelete() async {
+    try {
+      if (Provider.of<AuthBase>(context, listen: false).userCredential != null) {
+        await Provider.of<Database>(context, listen: false).deleteData();
+        await Provider.of<AuthBase>(context, listen: false).deleteAccount();
+      }
+      else {
+        throw Exception();
+      }
+    } catch (e) {
+      showExceptionAlertDialog(
+        context,
+        title: "Operation failed",
+        exception: new Exception("Try signing out and in again to do this."),
+      );
+    }
+  }
+
+  // Asks user to sign out
+  Future _confirmAccountDelete(BuildContext context) async {
+    final request = await showAlertDialog(
+      context,
+      title: 'Delete Account',
+      content: 'Are you sure you want to delete your account and data?',
+      cancelActionText: 'Cancel',
+      defaultActionText: 'Delete',
+    );
+    if (request) {
+      _accountDelete();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +97,13 @@ class _HomeState extends State<Home> {
           _appBarTitles[_currentIndex],
         ),
         actions: [
+          TextButton(
+            child: Icon(
+              Icons.delete_forever_outlined,
+              color: Colors.white,
+            ),
+            onPressed: () => _confirmAccountDelete(context),
+          ),
           TextButton(
             child: Icon(
               Icons.exit_to_app_outlined,

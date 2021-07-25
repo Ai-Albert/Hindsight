@@ -4,12 +4,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthBase {
   User get currentUser;
+  AuthCredential get userCredential;
   Stream<User> authStateChanges();
   Future<User> signInGoogle();
   Future<User> signInFB();
   Future<User> signInEmail(String email, String password);
   Future<User> createUserEmail(String email, String password);
   Future signOut();
+  Future<void> deleteAccount();
 }
 
 class Auth implements AuthBase {
@@ -17,9 +19,13 @@ class Auth implements AuthBase {
   final _firebaseAuth = FirebaseAuth.instance;
   final _googleSignIn = GoogleSignIn();
   final _fbLogin = FacebookLogin();
+  AuthCredential credential;
 
   @override
   User get currentUser => _firebaseAuth.currentUser;
+
+  @override
+  AuthCredential get userCredential => this.credential;
 
   @override
   Stream<User> authStateChanges() => _firebaseAuth.authStateChanges();
@@ -30,10 +36,11 @@ class Auth implements AuthBase {
     if (googleSignInAccount != null) {
       final googleAuth = await googleSignInAccount.authentication;
       if (googleAuth.idToken != null) {
-        final userCredential = await _firebaseAuth.signInWithCredential(GoogleAuthProvider.credential(
+        this.credential = GoogleAuthProvider.credential(
           idToken: googleAuth.idToken,
           accessToken: googleAuth.accessToken,
-        ));
+        );
+        final userCredential = await _firebaseAuth.signInWithCredential(this.credential);
         return userCredential.user;
       } else {
         throw FirebaseAuthException(
@@ -58,9 +65,8 @@ class Auth implements AuthBase {
     switch (response.status) {
       case FacebookLoginStatus.success:
         final accessToken = response.accessToken;
-        final userCredential = await _firebaseAuth.signInWithCredential(FacebookAuthProvider.credential(
-          accessToken.token,
-        ));
+        this.credential = FacebookAuthProvider.credential(accessToken.token);
+        final userCredential = await _firebaseAuth.signInWithCredential(this.credential);
         return userCredential.user;
       case FacebookLoginStatus.cancel:
         throw FirebaseAuthException(
@@ -79,15 +85,17 @@ class Auth implements AuthBase {
 
   @override
   Future<User> signInEmail(String email, String password) async {
-    final userCredential = await _firebaseAuth.signInWithCredential(EmailAuthProvider.credential(
+    this.credential = EmailAuthProvider.credential(
       email: email,
       password: password,
-    ));
+    );
+    final userCredential = await _firebaseAuth.signInWithCredential(this.credential);
     return userCredential.user;
   }
 
   @override
   Future<User> createUserEmail(String email, String password) async {
+    this.credential = EmailAuthProvider.credential(email: email, password: password);
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -100,5 +108,11 @@ class Auth implements AuthBase {
     _firebaseAuth.signOut();
     _googleSignIn.signOut();
     _fbLogin.logOut();
+  }
+
+  Future<void> deleteAccount() async {
+    print("credential: ${this.credential}");
+    await currentUser.reauthenticateWithCredential(this.credential);
+    await currentUser.delete();
   }
 }
